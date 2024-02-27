@@ -131,6 +131,7 @@ def handle_data():
     except Exception as e:
         print("Error processing request:", str(e))
         return jsonify({"error": "Internal server error"}), 500
+        
 
 if __name__ == '__main__':
     app.run(debug=True)
