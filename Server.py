@@ -83,24 +83,54 @@
 
 
 
+# from flask import Flask, request, jsonify
+# from flask_cors import CORS 
+# app = Flask(__name__)
+# CORS(app) 
+# @app.route('/')
+# def home():
+#     return jsonify({'message': 'Hello, World!!!'})
+
+# @app.route('/upload_image', methods=['GET','POST'])
+# def handle_data():
+#     if request.method == 'POST':
+#         data = request.json  # Get JSON data from the request
+#         # Process the data as needed
+#         print("Received data:", data)
+#         # Return a response if necessary
+#         return jsonify({"message": "Data received successfully"})
+#     else:
+#         return jsonify({"error": "Invalid request method"})
+
+# if __name__ == '__main__':
+#     app.run(debug=True)
+
+
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS 
+
 app = Flask(__name__)
 CORS(app) 
+
 @app.route('/')
 def home():
     return jsonify({'message': 'Hello, World!!!'})
 
-@app.route('/upload_image', methods=['GET','POST'])
+@app.route('/upload_image', methods=['GET', 'POST'])
 def handle_data():
-    if request.method == 'POST':
-        data = request.json  # Get JSON data from the request
-        # Process the data as needed
-        print("Received data:", data)
-        # Return a response if necessary
-        return jsonify({"message": "Data received successfully"})
-    else:
-        return jsonify({"error": "Invalid request method"})
+    try:
+        if request.method == 'POST':
+            data = request.json  # Get JSON data from the request
+            # Process the data as needed
+            print("Received data:", data)
+            # Return a response if necessary
+            return jsonify({"message": "Data received successfully"})
+        else:
+            return jsonify({"error": "Invalid request method"})
+    except Exception as e:
+        print("Error processing request:", str(e))
+        return jsonify({"error": "Internal server error"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
