@@ -118,7 +118,7 @@ def home():
     return jsonify({'message': 'Hello, World!!!'})
 
 @app.route('/upload_image', methods=['GET', 'POST'])
-def handle_data():
+def handle_data():  
     try:
         if request.method == 'POST':
             data = request.json  # Get JSON data from the request
@@ -131,7 +131,7 @@ def handle_data():
     except Exception as e:
         print("Error processing request:", str(e))
         return jsonify({"error": "Internal server error"}), 500
-        
+
 
 if __name__ == '__main__':
     app.run(debug=True)
