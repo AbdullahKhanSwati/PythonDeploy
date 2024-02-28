@@ -137,9 +137,17 @@
 #     app.run(debug=True)
 
 
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+import base64
 import os
 
-# ...
+app = Flask(__name__)
+CORS(app)
+
+@app.route('/')
+def home():
+    return jsonify({'message': 'Hello, World!!!'})
 
 @app.route('/upload_image', methods=['POST'])
 def handle_data():
@@ -178,5 +186,5 @@ def handle_data():
         print("Error processing request:", str(e))
         return jsonify({"error": "Internal server error"}), 500
 
-# ...
-
+if __name__ == '__main__':
+    app.run(debug=True)
