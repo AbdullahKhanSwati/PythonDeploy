@@ -125,7 +125,7 @@ def handle_data():
             # Process the data as needed
             print("Received data:", data)
             # Return a response if necessary
-            return data
+            return jsonify({"message": "Data received successfully",data})
         else:
             return jsonify({"error": "Invalid request method"})
     except Exception as e:
