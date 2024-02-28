@@ -194,6 +194,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import base64
 import os
+import cv2
+import numpy as np
 
 app = Flask(__name__)
 CORS(app)
@@ -216,15 +218,25 @@ def handle_data():
                     # Decode base64 string to bytes
                     image_data = base64.b64decode(base64_image)
 
-                    # Save the image to a file in the same directory
-                    with open(os.path.join(os.getcwd(), 'received_image.png'), 'wb') as img_file:
-                        img_file.write(image_data)
+                    # Convert bytes to numpy array
+                    nparr = np.frombuffer(image_data, np.uint8)
+
+                    # Decode the image array
+                    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+
+                    # Save the image to a file in the specified directory
+                    preprocess_folder = '../AI_Detect_Fake_Currency/src/screens/processedImage'
+                    if not os.path.exists(preprocess_folder):
+                        os.makedirs(preprocess_folder)
+
+                    processed_image_path = os.path.join(preprocess_folder, 'processed_image.jpg')
+                    cv2.imwrite(processed_image_path, cv2.cvtColor(img, cv2.COLOR_RGB2BGR))
 
                     # Return a response if necessary
-                    return jsonify({"message": "Base64 image data received successfully"}) 
+                    return jsonify({"message": "Base64 image data received and saved successfully"}) 
                 except Exception as e:
-                    print("Error decoding base64 image:", str(e))
-                    return jsonify({"error": "Error decoding base64 image"}), 500
+                    print("Error processing image:", str(e))
+                    return jsonify({"error": "Error processing image"}), 500
             else:
                 return jsonify({"error": "No base64Image provided in the request"})
         else:
@@ -235,3 +247,4 @@ def handle_data():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
