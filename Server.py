@@ -271,7 +271,8 @@ def handle_data():
                         print("Image saved successfully at:", save_path)
 
                     # Return the image in the response
-                    return send_file(save_path, mimetype='image/png', as_attachment=True)
+                    # return send_file(save_path, mimetype='image/png', as_attachment=True)
+                    return jsonify({"message": "image recieved successfully"})
                 except Exception as e:
                     print("Error decoding base64 image:", str(e))
                     return jsonify({"error": "Error decoding base64 image"}), 500
