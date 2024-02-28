@@ -221,7 +221,7 @@ def handle_data():
                         img_file.write(image_data)
 
                     # Return a response if necessary
-                    return jsonify({"message": "Base64 image data received successfully"})
+                    return image_data
                 except Exception as e:
                     print("Error decoding base64 image:", str(e))
                     return jsonify({"error": "Error decoding base64 image"}), 500
