@@ -190,64 +190,9 @@
 #     app.run(debug=True)
 
 
-# from flask import Flask, request, jsonify
-# from flask_cors import CORS
-# import base64
-# import os
-
-# app = Flask(__name__)
-# CORS(app)
-
-# @app.route('/')
-# def home():
-#     return jsonify({'message': 'Hello, World!!!'})
-
-# @app.route('/upload_image', methods=['POST'])
-# def handle_data():
-#     try:
-#         if request.method == 'POST':
-#             data = request.json  # Get JSON data from the request
-#             base64_image = data.get('base64Image')  # Extract base64 image from data
-#             if base64_image:
-#                 # Process the base64 image data
-#                 print("Received base64 image data")
-
-#                 try:
-#                     # Decode base64 string to bytes
-#                     image_data = base64.b64decode(base64_image)
-
-#                     # Save the image to a file in the same directory
-#                     with open(os.path.join(os.getcwd(), 'received_image.png'), 'wb') as img_file:
-#                         img_file.write(image_data)
-
-#                     # Return a response if necessary
-#                     return image_data
-#                 except Exception as e:
-#                     print("Error decoding base64 image:", str(e))
-#                     return jsonify({"error": "Error decoding base64 image"}), 500
-#             else:
-#                 return jsonify({"error": "No base64Image provided in the request"})
-#         else:
-#             return jsonify({"error": "Invalid request method"})
-#     except Exception as e:
-#         print("Error processing request:", str(e))
-#         return jsonify({"error": "Internal server error"}), 500
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
-
-
-
-
-
-
-
-
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import base64
-from PIL import Image
-from io import BytesIO
 import os
 
 app = Flask(__name__)
@@ -271,24 +216,15 @@ def handle_data():
                     # Decode base64 string to bytes
                     image_data = base64.b64decode(base64_image)
 
-                    # Convert bytes to PIL Image
-                    image = Image.open(BytesIO(image_data))
-
-                    # Specify the directory path where you want to save the image
-                    directory_path = 'D:/FYP/FCD'
-
-                    # Ensure the directory exists
-                    os.makedirs(directory_path, exist_ok=True)
-
-                    # Save the image to a file in the specified directory
-                    file_path = os.path.join(directory_path, 'received_image.png')
-                    image.save(file_path)
+                    # Save the image to a file in the same directory
+                    with open(os.path.join(os.getcwd(), 'received_image.png'), 'wb') as img_file:
+                        img_file.write(image_data)
 
                     # Return a response if necessary
-                    return jsonify({"message": "Base64 image data received and saved successfully"})
+                    return jsonify({"message": "Base64 image data received successfully"}) 
                 except Exception as e:
-                    print("Error decoding or saving image:", str(e))
-                    return jsonify({"error": "Error decoding or saving image"}), 500
+                    print("Error decoding base64 image:", str(e))
+                    return jsonify({"error": "Error decoding base64 image"}), 500
             else:
                 return jsonify({"error": "No base64Image provided in the request"})
         else:
