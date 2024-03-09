@@ -268,7 +268,7 @@ def handle_data():
                     
 
                     # Return the image in the response
-                    return image_data
+                    return jsonify({"error": "No base64Image provided in the request"})
                     # return jsonify({"message": "image recieved successfully"})
                 except Exception as e:
                     print("Error decoding base64 image:", str(e))
